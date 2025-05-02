@@ -175,7 +175,7 @@ def load_spike_data(
                 cluster_info = pd.DataFrame(
                     {
                         "cluster_id": labeled_clusters,
-                        "group": [""] * len(labeled_clusters),
+                        "KSLabel": [""] * len(labeled_clusters),
                     }
                 )
 
@@ -213,7 +213,7 @@ def load_spike_data(
                 amplitudes=cluster_agg["amplitudes"][c],
                 template=nbgh_temps[0],
                 templates=templates[cls_temp[c]].T,
-                label=cluster_info["group"][cluster_info["cluster_id"] == c].values[0],
+                label=cluster_info["KSLabel"][cluster_info["cluster_id"] == c].values[0],
                 neighbor_channels=nbgh_channels,
                 neighbor_positions=nbgh_postions,
                 neighbor_templates=nbgh_temps,
@@ -271,12 +271,12 @@ def read_phy_files(path: str, fs=20000.0):
             )  # in ms
             positions = np.load(f_zip.open("channel_positions.npy"))
             amplitudes = np.load(f_zip.open("amplitudes.npy")).squeeze()
-            if "cluster_info.tsv" in f_zip.namelist():
-                cluster_info = pd.read_csv(f_zip.open("cluster_info.tsv"), sep="\t")
+            if "cluster_KSLabel.tsv" in f_zip.namelist():
+                cluster_info = pd.read_csv(f_zip.open("cluster_KSLabel.tsv"), sep="\t")
                 cluster_id = np.array(cluster_info["cluster_id"])
                 # select clusters using curation label, remove units labeled as "noise"
                 # find the best channel by amplitude
-                labeled_clusters = cluster_id[cluster_info["group"] != "noise"]
+                labeled_clusters = cluster_id[cluster_info["KSLabel"] != "noise"]
             else:
                 labeled_clusters = np.unique(clusters)
 
