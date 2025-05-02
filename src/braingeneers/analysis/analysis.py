@@ -168,7 +168,7 @@ def load_spike_data(
                 cluster_info = pd.read_csv(f_zip.open("cluster_KSLabel.tsv"), sep="\t")
                 cluster_id = np.array(cluster_info["cluster_id"])
                 labeled_clusters = cluster_id[
-                    cluster_info["group"].isin(groups_to_load)
+                    cluster_info["group"].isin(groups_to_load) ]
             elif "cluster_info.tsv" in f_zip.namelist():
                 cluster_info = pd.read_csv(f_zip.open("cluster_info.tsv"), sep="\t")
                 cluster_id = np.array(cluster_info["cluster_id"])
